@@ -7,5 +7,6 @@ steps:
       - twitter-message-service
       - --region=us-central1
       - --source=.
+      - --runtime=python39
       - --entry-point=entrypoint
       - --trigger-topic=twitter-message-service-pubsub
