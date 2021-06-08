@@ -1,0 +1,11 @@
+steps:
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    args:
+      - gcloud
+      - functions
+      - deploy
+      - twitter-message-service
+      - --region=us-central1
+      - --source=.
+      - --entry-point=entrypoint
+      - --trigger-topic=twitter-message-service-pubsub
