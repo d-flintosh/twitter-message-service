@@ -1,3 +1,4 @@
+PROJECT_ID="sports-data-service"
 
 function enable_service() {
   service=$1
@@ -5,7 +6,18 @@ function enable_service() {
   gcloud services enable ${service} || echo "NoOP"
 }
 
+
 enable_service "secretmanager.googleapis.com"
+
+TWITTER_MESSAGE_SERVICE_ACCOUNT="twitter-message-service"
+
+gcloud iam service-accounts create ${TWITTER_MESSAGE_SERVICE_ACCOUNT} \
+    --description="Service account for twitter-message-service" \
+    --display-name=${TWITTER_MESSAGE_SERVICE_ACCOUNT} || echo "NoOP"
+
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+    --member="serviceAccount:${TWITTER_MESSAGE_SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com" \
+    --role="roles/secretmanager.secretAccessor" || echo "NoOP"
 
 #gcloud secrets create twitter-automation-001
 #gcloud secrets versions add twitter-automation-001 --data-file="path-to-secrets"

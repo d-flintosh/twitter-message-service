@@ -9,4 +9,6 @@ steps:
       - --source=.
       - --runtime=python39
       - --entry-point=entrypoint
+      - --memory=128MB
+      - --service-account=twitter-message-service@sports-data-service.iam.gserviceaccount.com
       - --trigger-topic=twitter-message-service-pubsub
