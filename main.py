@@ -28,7 +28,7 @@ def entrypoint(event, context):
     """
 
     data = base64.b64decode(event['data']).decode('utf-8')
-    logging.info(f'The data {data}')
+    print(f'The data {data}')
 
     credentials = get_credentials()
     send_tweet(credentials=credentials, content=data)
@@ -42,7 +42,7 @@ def send_tweet(credentials: dict, content: str):
         access_token_secret=credentials.get('access_token_secret')
     )
     response = api.request('statuses/update', {'status': content})
-    logging.info(f'The response code: {response.status_code}')
+    print(f'The response code: {response.status_code}')
 
 
 def get_credentials() -> dict:

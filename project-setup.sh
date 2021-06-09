@@ -19,6 +19,10 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
     --member="serviceAccount:${TWITTER_MESSAGE_SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com" \
     --role="roles/secretmanager.secretAccessor" || echo "NoOP"
 
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+    --member="serviceAccount:${TWITTER_MESSAGE_SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com" \
+    --role="roles/pubsub.publisher" || echo "NoOP"
+
 #gcloud secrets create twitter-automation-001
 #gcloud secrets versions add twitter-automation-001 --data-file="path-to-secrets"
 
