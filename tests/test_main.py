@@ -117,3 +117,10 @@ class TestCredentials:
 
     def test_result(self, setup: Fixture):
         assert setup.actual == TestCredentials.expected
+
+
+def test_foo():
+    send = {
+        'data': base64.b64encode(b'@FSUBaseball\nTaylor Walls went 1-4 1 HR.')
+    }
+    entrypoint(send, None)

@@ -1,10 +1,8 @@
-import json
 import base64
-import logging
 
 from TwitterAPI import TwitterAPI
-from google.cloud import secretmanager_v1
-from google.cloud.secretmanager_v1 import AccessSecretVersionRequest
+
+from src.authentication.twitter_auth import get_credentials
 
 
 def entrypoint(event, context):
@@ -28,27 +26,24 @@ def entrypoint(event, context):
     """
 
     data = base64.b64decode(event['data']).decode('utf-8')
-    print(f'The data {data}')
-
     credentials = get_credentials()
-    send_tweet(credentials=credentials, content=data)
+    application_credentials = credentials.get("application_account")
+    print(f'The data {data}')
+    accounts_to_tweet = [
+        application_credentials,
+        credentials.get("fsu")
+    ]
+    for account in accounts_to_tweet:
+        send_tweet(application_credentials=application_credentials, twitter_credentials=account, content=data)
 
 
-def send_tweet(credentials: dict, content: str):
+def send_tweet(application_credentials: dict, twitter_credentials: dict, content: str):
+    print(f'Sending tweet to: {twitter_credentials.get("twitter_handle")}')
     api = TwitterAPI(
-        consumer_key=credentials.get('api_key'),
-        consumer_secret=credentials.get('api_secret'),
-        access_token_key=credentials.get('access_token_key'),
-        access_token_secret=credentials.get('access_token_secret')
+        consumer_key=application_credentials.get('consumer_key'),
+        consumer_secret=application_credentials.get('consumer_secret'),
+        access_token_key=twitter_credentials.get('access_token_key'),
+        access_token_secret=twitter_credentials.get('access_token_secret')
     )
     response = api.request('statuses/update', {'status': content})
     print(f'The response code: {response.status_code}')
-
-
-def get_credentials() -> dict:
-    client = secretmanager_v1.SecretManagerServiceClient()
-    secret_request = AccessSecretVersionRequest({
-        'name': 'projects/557888643787/secrets/twitter-automation-001/versions/1'
-    })
-    secret = client.access_secret_version(request=secret_request)
-    return json.loads(secret.payload.data.decode('UTF-8'))
