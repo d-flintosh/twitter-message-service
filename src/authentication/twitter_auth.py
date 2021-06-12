@@ -16,8 +16,8 @@ def get_credentials():
 
 def get_access():
     credentials = get_credentials()
-    consumer_key=credentials.get('consumer_key')
-    consumer_secret=credentials.get('consumer_secret')
+    consumer_key=credentials.get('application_account').get('consumer_key')
+    consumer_secret=credentials.get('application_account').get('consumer_secret')
 
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret, callback='oob')
 

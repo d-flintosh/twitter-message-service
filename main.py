@@ -1,8 +1,6 @@
 import base64
 
-from TwitterAPI import TwitterAPI
-
-from src.authentication.twitter_auth import get_credentials
+from src.authentication.twitter import Twitter
 
 
 def entrypoint(event, context):
@@ -26,24 +24,5 @@ def entrypoint(event, context):
     """
 
     data = base64.b64decode(event['data']).decode('utf-8')
-    credentials = get_credentials()
-    application_credentials = credentials.get("application_account")
-    print(f'The data {data}')
-    accounts_to_tweet = [
-        application_credentials,
-        credentials.get("fsu")
-    ]
-    for account in accounts_to_tweet:
-        send_tweet(application_credentials=application_credentials, twitter_credentials=account, content=data)
-
-
-def send_tweet(application_credentials: dict, twitter_credentials: dict, content: str):
-    print(f'Sending tweet to: {twitter_credentials.get("twitter_handle")}')
-    api = TwitterAPI(
-        consumer_key=application_credentials.get('consumer_key'),
-        consumer_secret=application_credentials.get('consumer_secret'),
-        access_token_key=twitter_credentials.get('access_token_key'),
-        access_token_secret=twitter_credentials.get('access_token_secret')
-    )
-    response = api.request('statuses/update', {'status': content})
-    print(f'The response code: {response.status_code}')
+    school = event.get('attributes', {}).get('school', 'fsu')
+    Twitter(school=school).send_tweet(content=data)
