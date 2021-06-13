@@ -23,6 +23,10 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
     --member="serviceAccount:${TWITTER_MESSAGE_SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com" \
     --role="roles/pubsub.publisher" || echo "NoOP"
 
+gcloud iam roles create collaborator --project=${PROJECT_ID} \
+  --file=./collaborator-iam-role.yaml || echo "NoOP"
+
+
 #gcloud secrets create twitter-automation-001
 #gcloud secrets versions add twitter-automation-001 --data-file="path-to-secrets"
 

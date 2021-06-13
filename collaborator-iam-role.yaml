@@ -1,0 +1,7 @@
+title: collaborator
+description: "Collaborator of Things"
+stage: GA
+includedPermissions:
+  - roles/cloudfunctions.developer
+  - roles/cloudbuild.builds.editor
+  - roles/storage.objectViewer
