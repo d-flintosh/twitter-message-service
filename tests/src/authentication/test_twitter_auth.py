@@ -38,7 +38,7 @@ class TestCredentials:
 
     def test_access_secret_version_called(self, setup: Fixture):
         request = AccessSecretVersionRequest({
-            'name': 'projects/557888643787/secrets/twitter-automation-001/versions/2'
+            'name': 'projects/557888643787/secrets/twitter-automation-001/versions/3'
         })
         setup.mock_client.access_secret_version.assert_called_once_with(
             request=request
