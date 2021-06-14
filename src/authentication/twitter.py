@@ -1,3 +1,5 @@
+from math import ceil
+
 from TwitterAPI import TwitterAPI
 
 from src.authentication.twitter_auth import get_credentials
@@ -29,5 +31,29 @@ class Twitter:
             access_token_key=twitter_credentials.get('access_token_key'),
             access_token_secret=twitter_credentials.get('access_token_secret')
         )
-        response = twitter_api.request('statuses/update', {'status': content})
-        print(f'The response code: {response.status_code}')
+        tweets_to_send = self._format_for_tweet(content=content)
+
+        for tweet in tweets_to_send:
+            response = twitter_api.request('statuses/update', {'status': tweet})
+            print(f'The response code: {response.status_code}')
+
+
+    def _format_for_tweet(self, content: str):
+        punctuation = ['.']
+        tweets = []
+        tweet_count = 0
+        expected_tweet_count = ceil(len(content)/140)
+
+        while len(content) > 140:
+            tweet_count += 1
+            cut_where, cut_why = max((content.rfind(punc, 0, 136), punc) for punc in punctuation)
+            if cut_where <= 0:
+                cut_where = content.rfind(' ', 0, 136)
+                cut_why = ' '
+            cut_where += len(cut_why)
+            tweets.append(content[:cut_where].rstrip() + f' {tweet_count}/{expected_tweet_count}')
+            content = content[cut_where:].lstrip()
+
+        final_content = f'{content} {tweet_count+1}/{expected_tweet_count}' if expected_tweet_count > 1 else content
+        tweets.append(final_content)
+        return tweets
