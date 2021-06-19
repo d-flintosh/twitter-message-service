@@ -25,15 +25,12 @@ class TestTwitter:
             Params(
                 content='the content',
                 expected_twitter_api_calls=[
-                    call('statuses/update', {'status': 'the content'}),
                     call('statuses/update', {'status': 'the content'})
                 ]
             ),
             Params(
                 content='the content has a first name. it is oscar. the content has a second name it is meyer. this is not long enough so the content has a third name but I forgot what it was',
                 expected_twitter_api_calls=[
-                    call('statuses/update', {'status': 'the content has a first name. it is oscar. the content has a second name it is meyer. 1/2'}),
-                    call('statuses/update', {'status': 'this is not long enough so the content has a third name but I forgot what it was 2/2'}),
                     call('statuses/update', {'status': 'the content has a first name. it is oscar. the content has a second name it is meyer. 1/2'}),
                     call('statuses/update', {'status': 'this is not long enough so the content has a third name but I forgot what it was 2/2'})
                 ]
@@ -43,10 +40,7 @@ class TestTwitter:
                 expected_twitter_api_calls=[
                     call('statuses/update', {'status': 'the content has a first name. it is oscar. the content has a second name it is meyer. 1/3'}),
                     call('statuses/update', {'status': 'this is not long enough so the content has a third name but I forgot what it was. here we go throwing shit. 2/3'}),
-                    call('statuses/update', {'status': 'at the fan trying to make this over 280 characters. am I there yet. Almost. But not quite. 3/3'}),
-                    call('statuses/update', {'status': 'the content has a first name. it is oscar. the content has a second name it is meyer. 1/3'}),
-                    call('statuses/update', {'status': 'this is not long enough so the content has a third name but I forgot what it was. here we go throwing shit. 2/3'}),
-                    call('statuses/update', {'status': 'at the fan trying to make this over 280 characters. am I there yet. Almost. But not quite. 3/3'}),
+                    call('statuses/update', {'status': 'at the fan trying to make this over 280 characters. am I there yet. Almost. But not quite. 3/3'})
 
                 ]
             )
@@ -80,12 +74,6 @@ class TestTwitter:
 
     def test_twitter_api_called(self, setup: Fixture):
         setup.mock_twitter_api_constructor.assert_has_calls([
-            call(
-                consumer_key='api_foo',
-                consumer_secret='secret_foo',
-                access_token_key='access_foo',
-                access_token_secret='access_secret_foo'
-            ),
             call(
                 consumer_key='api_foo',
                 consumer_secret='secret_foo',

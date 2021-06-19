@@ -17,11 +17,6 @@ class Twitter:
             twitter_credentials=self.twitter_credentials,
             content=content
         )
-        self._send_tweet(
-            application_credentials=self.application_credentials,
-            twitter_credentials=self.application_credentials,
-            content=content
-        )
 
     def _send_tweet(self, application_credentials: dict, twitter_credentials: dict, content: str):
         print(f'Sending tweet to: {twitter_credentials.get("twitter_handle")}')
