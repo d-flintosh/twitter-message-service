@@ -32,7 +32,6 @@ class Twitter:
             response = twitter_api.request('statuses/update', {'status': tweet})
             print(f'The response code: {response.status_code}')
 
-
     def _format_for_tweet(self, content: str):
         punctuation = ['.']
         tweets = []
