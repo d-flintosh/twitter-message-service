@@ -10,7 +10,7 @@ function enable_service() {
 enable_service "secretmanager.googleapis.com"
 
 TWITTER_MESSAGE_SERVICE_ACCOUNT="twitter-message-service"
-
+#
 gcloud iam service-accounts create ${TWITTER_MESSAGE_SERVICE_ACCOUNT} \
     --description="Service account for twitter-message-service" \
     --display-name=${TWITTER_MESSAGE_SERVICE_ACCOUNT} || echo "NoOP"
@@ -25,7 +25,7 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
 
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
     --member="serviceAccount:${TWITTER_MESSAGE_SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com" \
-    --role="roles/storage.objectCreator" || echo "NoOP"
+    --role="roles/storage.objectAdmin" || echo "NoOP"
 
 #gcloud iam roles create collaborator --project=${PROJECT_ID} \
 #  --file=./collaborator-iam-role.yaml || echo "NoOP"
