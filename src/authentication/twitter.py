@@ -33,7 +33,7 @@ class Twitter:
             print(f'The response code: {response.status_code}')
 
     def _format_for_tweet(self, content: str):
-        punctuation = ['.']
+        punctuation = ['\n']
         tweets = []
         tweet_count = 0
         expected_tweet_count = ceil(len(content)/140)
