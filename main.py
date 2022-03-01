@@ -24,6 +24,5 @@ def entrypoint(event, context):
     """
 
     data = base64.b64decode(event['data']).decode('utf-8')
-    print(f'the data {data}')
     school = event.get('attributes', {}).get('school', 'fsu')
-    # Twitter(school=school).send_tweet(content=data)
+    Twitter(school=school).send_tweet(content=data)
